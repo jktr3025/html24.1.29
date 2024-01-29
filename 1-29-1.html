@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        a{
+            text-decoration: none;
+            color: inherit;
+        }
+        html, body{
+            height: 100%;
+        }
+        body{
+            background-color: #1c1c1c;
+        }
+        button:focus{
+            outline: none;
+        }
+        button:hover{
+            opacity: 0.7;
+        }
+        #pool{
+            width: 100vw;
+            height: 100vh;
+            position: absolute; 
+            overflow: hidden; 
+        }
+        button{
+            width: 54px;
+            height: 54px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            z-index: 5;
+            transition: all 0.3s ease 0.1s;
+        }
+        .btn_wrap{
+            width: 54px;
+            height: 100%;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            /* border: 1px solid white; */
+            justify-content: center;
+            /* z-index: 1000; */
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease 0.6s;
+            transform-origin: 50% 50%;
+        }
+        .btn_wrap.clicked{
+            /* transform: rotate(90deg) translateY(-100%); */
+            transform: rotate(180deg) translateY(-20px) translateX(20px);
+            right: 0;
+            bottom: 0;
+            transition: all 0.3s ease 0.6s;
+        }   
+        .btn_wrap.clicked .main_btn{
+            opacity: 0;
+            transition: all 0.3s ease 0.3s;
+        }
+        .btn_wrap.clicked .layer{
+            transform: scale(100);
+        }
+        .layer{
+            position: absolute;
+            left: 0;
+            /* top: 0; */
+            bottom: 0;
+            right: 0;
+            background-color: hotpink;
+            border-radius: 50%;
+            width: 54px;
+            height: 54px;
+            z-index: -99;
+            transition: all 0.25s cubic-bezier(0.075, 0.82, 0.165, 1) 0.9s;
+            pointer-events: none;
+            /* border: 1px solid gold; */
+            transform: scale(1);
+        }
+        .main_btn{
+            background-color: hotpink;
+            color: white;
+            font-weight: bold;
+            align-self: flex-end;
+        }
+
+        .ripple{}
+
+        .layered_content{
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* border: 1px solid gold; */
+            opacity: 0;
+            transition: all 0.9s ease-in 0.3s;
+        }
+        .layered_content.active{
+            opacity: 1;
+        }
+        .layered_content.active .close_btn{
+            animation: bounce 0.3s ;
+        }
+        .layered_content.active .content p{
+            top: 0;
+            opacity: 1;
+        }
+        @keyframes bounce {
+            0%{transform: scale(1);}
+            50%{transform: scale(1.2);}
+            100%{transform: scale(1);}
+        }
+        .close_btn{
+            background-color: white;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: hotpink;
+            font-weight: bold;
+        }
+        .content{}
+        .content h1{}
+        .content p{
+            color: white;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.5;
+            position: relative;
+            top: -8px;
+            transition: all 0.3s ease 0.5s;
+        }
+        .content p a{
+            font-size: 12px;
+            background-color: white;
+            border-radius: 10px;
+            color: hotpink;
+            display: inline-block;
+            padding: 3px 5px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="pool">
+        <div class="btn_wrap">
+            <div class="layer"></div><!-- layer -->
+                <button class="main_btn">+</button>
+                <div class="ripple"></div>
+        </div><!-- btn_wrap -->
+
+        <div class="layered_content">
+            <button class="close_btn">X</button>
+            <div class="content">
+                <h1>2024년 1월 29일</h1>
+                <p>BONG EUN JI <a href="#">PLUS</a></p>
+            </div><!-- content -->
+        </div><!-- layered_content -->
+
+
+    </div><!-- pool -->
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script lang="java">
+        $(function(){
+            var main_button = $(".main_btn"),
+            close_button = $(".close_btn"),
+            btn_wrap = $(".btn_wrap"),
+            ripple = $(".ripple"),
+            layer = $(".layered_content");
+
+            main_button.click(function(){
+                btn_wrap.addClass("clicked").delay(900).queue(function(next){
+                    layer.addClass("active");
+                    next();
+                })
+            })//main_button.click
+
+            close_button.click(function(){
+                layer.removeClass("active");
+                btn_wrap.removeClass("clicked");
+            })//close_button.click
+
+        })//jquery
+</script>
+</body>
+</html>

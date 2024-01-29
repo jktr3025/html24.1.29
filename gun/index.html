@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery.transit.min.js"></script>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        ul,ol,li{
+            list-style: none;
+        }
+        html, body{
+            height: 100%;
+        }
+        body{
+            background-color: antiquewhite;
+            background-image: url("images/bg.png");
+            background-position: center center;
+            background-size: cover;
+            /* background: antiquewhite url("images/bg.png") center / cover ; */
+        }
+        #control_wrapper{
+            position: fixed;
+            width: 300px;
+            height: 420px;
+            left: 0;
+            bottom: 0;
+        }
+        .gun{
+            width: 200px;
+            height: 250px;
+            background-image: url("images/gun.png");
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+        .gun:active{
+            background-position: bottom;
+        }
+        .money{}
+        .money li{
+            cursor: pointer;
+        }
+        .money li img{
+            position: relative;
+            left: 0;
+            opacity: 1;
+        }
+        .money li img.gone{
+            left: 1000px;
+            opacity: 0;
+            margin-top: 150px;
+        }
+        #sunban_wrapper{
+            width: 780px;
+            margin: 50px auto;
+        }
+        .sunban{
+            height: 150px;
+            background-image: url("images/sunban.png");
+            background-repeat: no-repeat;
+            background-position: center bottom;
+            margin-bottom: 50px;
+        }
+        .sunban img{
+            cursor: pointer;
+            float: left;
+            position: relative;
+            /* border: 1px solid rebeccapurple; */
+        }
+
+    </style>
+</head>
+<body>
+    <div id="control_wrapper">
+        <div class="gun"></div>
+        <ul class="money">
+            <li><img src="images/money.png" alt="money"></li>
+            <li><img src="images/money.png" alt="money"></li>
+            <li><img src="images/money.png" alt="money"></li>
+        </ul><!-- money -->
+    </div><!-- control_wrapper -->
+    <div id="sunban_wrapper">
+        <div class="sunban">
+            <img src="images/01.png" alt="1">
+            <img src="images/02.png" alt="2">
+            <img src="images/03.png" alt="3">
+            <img src="images/04.png" alt="4">
+            <img src="images/05.png" alt="5">
+            <img src="images/06.png" alt="6">
+        </div><!-- sunban -->
+        <div class="sunban">
+            <img src="images/07.png" alt="7">
+            <img src="images/08.png" alt="8">
+            <img src="images/09.png" alt="9">
+            <img src="images/10.png" alt="10">
+            <img src="images/11.png" alt="11">
+            <img src="images/12.png" alt="12">
+        </div><!-- sunban -->
+    </div><!-- sunban_wrapper -->
+
+    <script lang="java">
+        $(function(){
+
+
+            var i = 0; //인덱스 번호 0~12
+            $(".gun").click(function(){
+                $(".sunban img").eq(i).transition({
+                    rotateX:"70deg", 
+                    skewX:"-20deg",
+                    y:"-20px",
+                    marginTop:"50px"
+                });
+                i++;
+                //$(".sunban img").eq(2).css({border:"1px solid red"});
+                // sunban이 2 묶음이 있어서 eq(2)면 8번 이미지에도
+                // 적용될거 같지만
+                // 같은 속성으로 인식해서 2번째 이미지에만 적용됨
+            })// gun click
+
+            $(".money li img").click(function(){
+                i=0;
+                $(this).toggleClass("gone", 500);
+                $(".sunban img").transition({
+                    rotateX:"0deg", 
+                    skewX:"0deg",
+                    y:"0px",
+                    marginTop:"0px"
+                });
+            })//money li img").click
+
+            $(".sunban img").click(function(){
+                $(this).transition({
+                    rotateX:"0deg", 
+                    skewX:"0deg",
+                    y:"0px",
+                    marginTop:"0px"
+                });
+            })//sunban img").click
+
+
+
+
+
+        })//jquery
+    </script>
+</body>
+</html>

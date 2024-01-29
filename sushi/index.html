@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        ul,ol,li{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+            color: inherit;
+
+        }
+        img{
+            vertical-align: bottom;
+        }
+        html, body{
+            height: 100%;
+            background-color: white;
+        }
+        body{
+            overflow: hidden;
+        }
+        #header{
+            width: 200px;
+            height: 200px;
+            background-image: url("images/logo.png");
+            margin: 50px auto;
+            position: relative;
+        }
+        .nav{
+            width: 60px;
+            height: 100px;
+            background-image: url("images/arr-sprite.png");
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            text-indent: -9999px;
+        }
+        .nav.prev{
+            left: -100px;
+        }
+        .nav.next{
+            background-position: center right;
+            right: -100px;
+        }
+        .container{
+            width: 3000px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+        }
+        .sushi_name{
+            font-size: 20px;
+            width: 65px;
+            margin: 15px;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 3px solid royalblue;
+            line-height: 50px;
+            color: royalblue;
+            display: none;
+            position: relative;
+            left: 0;
+            z-index: 100;
+        }
+        .img_list{}
+        .img_list li{
+            float: left;
+            position: relative;
+            left: 100vw;
+            top: 50px;
+        }
+        .img_list li.show{
+            left: 0;
+        }
+        .img_list li.up{
+            top: 0;
+        }
+        .img_list li img{}
+
+
+    </style>
+</head>
+<body>
+    <div id="header">
+        <a href="#" class="nav prev">prev</a>
+        <a href="#" class="nav next">next</a>
+    </div><!-- header -->
+
+    <div class="container">
+        <h3 class="sushi_name">name</h3>
+        <ul class="img_list">
+            <li><img src="images/s01.png" alt="sushi1"></li>
+            <li><img src="images/s02.png" alt="sushi2"></li>
+            <li><img src="images/s03.png" alt="sushi3"></li>
+            <li><img src="images/s04.png" alt="sushi4"></li>
+            <li><img src="images/s05.png" alt="sushi5"></li>
+            <li><img src="images/s06.png" alt="sushi6"></li>
+            <li><img src="images/s07.png" alt="sushi7"></li>
+            <li><img src="images/s08.png" alt="sushi8"></li>
+            <li><img src="images/s09.png" alt="sushi9"></li>
+            <li><img src="images/s10.png" alt="sushi10"></li>
+            <li><img src="images/s11.png" alt="sushi11"></li>
+            <li><img src="images/s12.png" alt="sushi12"></li>
+            <li><img src="images/s13.png" alt="sushi13"></li>
+            <li><img src="images/s14.png" alt="sushi14"></li>
+            <li><img src="images/s15.png" alt="sushi15"></li>
+            <li><img src="images/s16.png" alt="sushi16"></li>
+        </ul><!-- img_list -->
+    </div><!-- container -->
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script lang="java">
+        $(function(){
+            var current = 0;
+
+            $(".img_list li").each(function(i){
+                $(this).delay(200*i).addClass("show",2000);
+
+                $(this).hover(function(){
+                    var name = $(this).children("img").attr("alt");
+                    var p_left = $(this).position().left;
+                    $(".sushi_name").show().text(name).css({left:p_left});
+                    $(this).addClass("up",400);
+                    $(".sushi_name").css({opacity:"1"});
+                }, function(){
+                    $(this).removeClass("up",400);
+                    $(".sushi_name").css({opacity:"0"});
+                })//this).hover
+
+            })//img_list li").each
+
+            $(".nav").click(function(){
+                var check = $(this).hasClass("prev");
+                if(check == true){
+                    current += 100;
+                }else{
+                    current -= 100;
+                }//if
+                console.log(current);
+                $(".container").stop().animate({left:current}, 500, function(){
+                    var sushi_pos = $(this).position().left;
+                    var sushi_end = $(window).width() - $(".container").width();
+                    if(sushi_pos > 0){
+                        current = 0;
+                        $(this).stop().animate({left:0});
+                    }
+                    if(sushi_pos < sushi_end){
+                        current = sushi_end;
+                        $(this).stop().animate({left:sushi_end});
+                    }
+                });//animate
+            })//nav").click
+
+
+        })//jquery
+    </script>
+</body>
+</html>
